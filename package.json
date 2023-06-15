@@ -1,6 +1,6 @@
 {
   "name": "unist-util-find-between-all",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "unist utility to find the nodes between two nodes",
   "license": "MIT",
   "keywords": [
