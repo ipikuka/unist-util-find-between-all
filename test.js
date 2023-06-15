@@ -43,24 +43,40 @@ test('findAllBetween', () => {
       // @ts-expect-error runtime.
       findAllBetween({type: 'foo', children: []})
     },
-    /Expected child node or index/,
-    'should fail without index'
+    /Expected child node or index for start/,
+    'should fail without any index'
   )
 
   assert.throws(
     () => {
-      findAllBetween({type: 'foo', children: []}, -1)
+      findAllBetween({type: 'foo', children: []}, -1, 2)
     },
-    /Expected positive finite number as index/,
+    /Expected positive finite number as index for start/,
     'should fail with invalid index (#1)'
   )
 
   assert.throws(
     () => {
-      findAllBetween({type: 'foo', children: []}, Number.POSITIVE_INFINITY)
+      findAllBetween({type: 'foo', children: []}, Number.POSITIVE_INFINITY, 2)
     },
-    /Expected positive finite number as index/,
+    /Expected positive finite number as index for start/,
     'should fail with invalid index (#2)'
+  )
+
+  assert.throws(
+    () => {
+      findAllBetween({type: 'foo', children: []}, 2, -1)
+    },
+    /Expected positive finite number as index for end/,
+    'should fail with invalid index (#3)'
+  )
+
+  assert.throws(
+    () => {
+      findAllBetween({type: 'foo', children: []}, 2, Number.POSITIVE_INFINITY)
+    },
+    /Expected positive finite number as index for end/,
+    'should fail with invalid index (#4)'
   )
 
   assert.throws(
@@ -68,30 +84,31 @@ test('findAllBetween', () => {
       // @ts-expect-error runtime.
       findAllBetween({type: 'foo', children: []}, false)
     },
-    /Expected child node or index/,
-    'should fail with invalid index (#3)'
+    /Expected child node or index for start/,
+    'should fail with invalid index (#5)'
   )
 
   assert.throws(
     () => {
-      findAllBetween({type: 'foo', children: []}, -1)
+      findAllBetween({type: 'foo', children: []}, -1, 1)
     },
-    /Expected positive finite number as index/,
-    'should fail with invalid index (#4)'
+    /Expected positive finite number as index for start/,
+    'should fail with invalid index (#6)'
   )
 
   assert.throws(
     () => {
-      findAllBetween({type: 'foo', children: []}, {type: 'bar'})
+      findAllBetween({type: 'foo', children: []}, {type: 'bar'}, 1)
     },
     /Expected child node/,
-    'should fail with invalid index (#5)'
+    'should fail with invalid index (#7)'
   )
 
   assert.throws(
     () => {
       findAllBetween(
         {type: 'foo', children: [{type: 'bar'}, {type: 'baz'}]},
+        0,
         0,
         // @ts-expect-error runtime.
         false
@@ -106,6 +123,7 @@ test('findAllBetween', () => {
       findAllBetween(
         {type: 'foo', children: [{type: 'bar'}, {type: 'baz'}]},
         0,
+        0,
         // @ts-expect-error runtime.
         true
       )
@@ -115,96 +133,95 @@ test('findAllBetween', () => {
   )
 
   assert.deepEqual(
-    findAllBetween(paragraph, children[1]),
-    children.slice(2),
+    findAllBetween(paragraph, children[1], children[4]),
+    children.slice(2, 4),
     'should return the following node when without `test` (#1)'
   )
   assert.deepEqual(
-    findAllBetween(paragraph, 1),
-    children.slice(2),
-    'should return the following node when without `test` (#1)'
+    findAllBetween(paragraph, 1, 4),
+    children.slice(2, 4),
+    'should return the following node when without `test` (#2)'
   )
   assert.deepEqual(
-    findAllBetween(paragraph, 7),
+    findAllBetween(paragraph, children[1], children[2]),
     [],
     'should return the following node when without `test` (#1)'
   )
+  assert.deepEqual(
+    findAllBetween(paragraph, 1, 2),
+    [],
+    'should return the following node when without `test` (#3)'
+  )
 
   assert.deepEqual(
-    // @ts-expect-error TS doesn’t understand nodes.
-    findAllBetween(paragraph, 0, children[6]),
-    [children[6]],
+    findAllBetween(paragraph, 0, children[2]),
+    [children[1]],
     'should return `node` when given a `node` and existing (#1)'
   )
   assert.deepEqual(
-    // @ts-expect-error TS doesn’t understand nodes.
-    findAllBetween(paragraph, children[0], children[1]),
+    findAllBetween(paragraph, children[0], children[2]),
     [children[1]],
     'should return `node` when given a `node` and existing (#2)'
   )
   assert.deepEqual(
-    // @ts-expect-error TS doesn’t understand nodes.
-    findAllBetween(paragraph, 0, children[1]),
-    [children[1]],
-    'should return `node` when given a `node` and existing (#3)'
+    findAllBetween(paragraph, 1, children[4]),
+    [children[2], children[3]],
+    'should return `node`s when given a `node` and existing (#3)'
   )
   assert.deepEqual(
-    // @ts-expect-error TS doesn’t understand nodes.
     findAllBetween(paragraph, children[0], children[0]),
     [],
     'should return `node` when given a `node` and existing (#4)'
   )
   assert.deepEqual(
-    // @ts-expect-error TS doesn’t understand nodes.
-    findAllBetween(paragraph, 0, children[0]),
+    findAllBetween(paragraph, 0, children[1]),
     [],
     'should return `node` when given a `node` and existing (#5)'
   )
   assert.deepEqual(
-    // @ts-expect-error TS doesn’t understand nodes.
     findAllBetween(paragraph, 1, children[1]),
     [],
     'should return `node` when given a `node` and existing (#6)'
   )
 
   assert.deepEqual(
-    findAllBetween(paragraph, 0, 'strong'),
+    findAllBetween(paragraph, 0, 6, 'strong'),
     [children[3]],
     'should return a child when given a `type` and existing (#1)'
   )
   assert.deepEqual(
-    findAllBetween(paragraph, 3, 'strong'),
+    findAllBetween(paragraph, 3, 6, 'strong'), // since the index 3 is a strong and the start is excluded
     [],
     'should return a child when given a `type` and existing (#2)'
   )
   assert.deepEqual(
-    findAllBetween(paragraph, children[0], 'strong'),
+    findAllBetween(paragraph, children[0], children[5], 'strong'),
     [children[3]],
     'should return a child when given a `type` and existing (#3)'
   )
   assert.deepEqual(
-    findAllBetween(paragraph, children[3], 'strong'),
+    findAllBetween(paragraph, children[3], children[6], 'strong'),
     [],
     'should return a child when given a `type` and existing (#4)'
   )
 
   assert.deepEqual(
-    findAllBetween(paragraph, 0, check),
-    children.slice(5),
+    findAllBetween(paragraph, 0, 6, check),
+    [children[5]],
     'should return a child when given a `test` and existing (#1)'
   )
   assert.deepEqual(
-    findAllBetween(paragraph, 6, check),
+    findAllBetween(paragraph, 5, 6, check),
     [],
     'should return a child when given a `test` and existing (#2)'
   )
   assert.deepEqual(
-    findAllBetween(paragraph, children[4], check),
-    children.slice(5),
+    findAllBetween(paragraph, children[4], children[6], check),
+    [children[5]],
     'should return a child when given a `test` and existing (#3)'
   )
   assert.deepEqual(
-    findAllBetween(paragraph, children[6], check),
+    findAllBetween(paragraph, children[0], children[5], check),
     [],
     'should return a child when given a `test` and existing (#4)'
   )
