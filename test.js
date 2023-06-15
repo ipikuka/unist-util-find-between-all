@@ -35,7 +35,16 @@ test('findAllBetween', () => {
       findAllBetween({type: 'foo'})
     },
     /Expected parent node/,
-    'should fail without parent node'
+    'should fail without parent that does not have children'
+  )
+
+  assert.throws(
+    () => {
+      // @ts-expect-error runtime.
+      findAllBetween({children: []})
+    },
+    /Expected parent node/,
+    'should fail without parent that does not have type'
   )
 
   assert.throws(
@@ -65,18 +74,26 @@ test('findAllBetween', () => {
 
   assert.throws(
     () => {
-      findAllBetween({type: 'foo', children: []}, 2, -1)
-    },
-    /Expected positive finite number as index for end/,
-    'should fail with invalid index (#3)'
-  )
-
-  assert.throws(
-    () => {
       findAllBetween({type: 'foo', children: []}, 2, Number.POSITIVE_INFINITY)
     },
     /Expected positive finite number as index for end/,
     'should fail with invalid index (#4)'
+  )
+
+  assert.throws(
+    () => {
+      findAllBetween({type: 'foo', children: []}, -1, 1)
+    },
+    /Expected positive finite number as index for start/,
+    'should fail with invalid index (#6)'
+  )
+
+  assert.throws(
+    () => {
+      findAllBetween({type: 'foo', children: []}, 1, -1)
+    },
+    /Expected positive finite number as index for end/,
+    'should fail with invalid index (#6)'
   )
 
   assert.throws(
@@ -90,17 +107,17 @@ test('findAllBetween', () => {
 
   assert.throws(
     () => {
-      findAllBetween({type: 'foo', children: []}, -1, 1)
+      findAllBetween({type: 'foo', children: []}, {type: 'bar'}, 1)
     },
-    /Expected positive finite number as index for start/,
-    'should fail with invalid index (#6)'
+    /Expected child node or index for start/,
+    'should fail with invalid index (#7)'
   )
 
   assert.throws(
     () => {
-      findAllBetween({type: 'foo', children: []}, {type: 'bar'}, 1)
+      findAllBetween({type: 'foo', children: []}, 1, {type: 'bar'})
     },
-    /Expected child node/,
+    /Expected child node or index for end/,
     'should fail with invalid index (#7)'
   )
 
@@ -190,7 +207,7 @@ test('findAllBetween', () => {
     'should return a child when given a `type` and existing (#1)'
   )
   assert.deepEqual(
-    findAllBetween(paragraph, 3, 6, 'strong'), // since the index 3 is a strong and the start is excluded
+    findAllBetween(paragraph, 3, 6, 'strong'), // Since the index 3 is a strong and the start is excluded
     [],
     'should return a child when given a `type` and existing (#2)'
   )
