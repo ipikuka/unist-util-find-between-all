@@ -8,7 +8,6 @@
     "unist-util",
     "util",
     "utility",
-    "tree",
     "node",
     "find",
     "between"
@@ -25,8 +24,7 @@
   ],
   "sideEffects": false,
   "type": "module",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "exports": "./index.js",
   "files": [
     "lib/",
     "index.d.ts",
@@ -51,31 +49,36 @@
   },
   "scripts": {
     "prepack": "npm run build && npm run format",
-    "build": "tsc --build --clean && tsc --build && type-coverage",
+    "build": "tsc --build --clean && tsc --build && tsd && type-coverage",
     "format": "remark . -qfo && prettier . -w --loglevel warn && xo --fix",
     "test-api": "node --conditions development test.js",
-    "test-coverage": "c8 --check-coverage --100 --reporter lcov npm run test-api",
+    "test-coverage": "c8 --100 --reporter lcov npm run test-api",
     "test": "npm run build && npm run format && npm run test-coverage"
   },
   "prettier": {
-    "tabWidth": 2,
-    "useTabs": false,
-    "singleQuote": true,
     "bracketSpacing": false,
     "semi": false,
-    "trailingComma": "none"
-  },
-  "xo": {
-    "prettier": true
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "none",
+    "useTabs": false
   },
   "remarkConfig": {
     "plugins": [
-      "preset-wooorm"
+      "remark-preset-wooorm"
     ]
   },
   "typeCoverage": {
     "atLeast": 100,
     "detail": true,
+    "ignoreCatch": true,
+    "#": "needed `any`s",
+    "ignoreFiles": [
+      "lib/index.d.ts"
+    ],
     "strict": true
+  },
+  "xo": {
+    "prettier": true
   }
 }
