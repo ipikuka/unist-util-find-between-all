@@ -17,7 +17,7 @@
 *   [Install](#install)
 *   [Use](#use)
 *   [API](#api)
-    *   [`findAllBetween(parent, child|index, child|index[, test])`](#findallbetweenparent-childindex-childindex-test)
+    *   [`findAllBetween(parent, child|index, child|index[, test])`](#findallbetweenparent-childindex-test)
 *   [Types](#types)
 *   [Compatibility](#compatibility)
 *   [Related](#related)
@@ -38,7 +38,7 @@ But this helps when integrating with the rest of unified and unist.
 ## Install
 
 This package is [ESM only][esm].
-In Node.js (version 14.14+ and 16.0+), install with [npm][]:
+In Node.js (version 16+), install with [npm][]:
 
 ```sh
 npm install unist-util-find-between-all
@@ -88,7 +88,7 @@ Yields:
 
 ## API
 
-This package exports the identifier [`findAllBetween`][api-findallbetween].
+This package exports the identifier [`findAllBetween`][api-find-all-between].
 There is no default export.
 
 ### `findAllBetween(parent, child|index, child|index[, test])`
@@ -117,9 +117,9 @@ It exports no additional types (types for the test are in `unist-util-is`).
 
 ## Compatibility
 
-Projects maintained by the unified collective are compatible with all maintained
+Projects maintained by the unified collective are compatible with maintained
 versions of Node.js.
-As of now, that is Node.js 14.14+ and 16.0+.
+As of now, that is Node.js 16+.
 Our projects sometimes work with older versions, but this is not guaranteed.
 
 ## Related
@@ -175,9 +175,9 @@ abide by its terms.
 
 [downloads]: https://www.npmjs.com/package/unist-util-find-between-all
 
-[size-badge]: https://img.shields.io/bundlephobia/minzip/unist-util-find-between-all.svg
+[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size&query=$.size.compressedSize&url=https://deno.bundlejs.com/?q=unist-util-find-between-all
 
-[size]: https://bundlephobia.com/result?p=unist-util-find-between-all
+[size]: https://bundlejs.com/?q=unist-util-find-between-all
 
 [sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
 
@@ -215,4 +215,4 @@ abide by its terms.
 
 [test]: https://github.com/syntax-tree/unist-util-is#test
 
-[api-findallbetween]: #findallbetweenparent-childindex-childindex-test
+[api-find-all-between]: #findallbetweenparent-childindex-test
