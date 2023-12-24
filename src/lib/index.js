@@ -73,8 +73,9 @@
 import {convert} from 'unist-util-is'
 
 /**
- * Find the nodes in `parent` between two `node`s or between two indexes, that
- * pass `test`.
+ * Find the nodes in `parent` between two `node`s or two indexes, that
+ * pass `test`. Nodes and indexes at both sides are excluded, but there is an
+ * option for including both sides
  *
  * @param parent
  *   Parent node.
@@ -84,6 +85,8 @@ import {convert} from 'unist-util-is'
  *   Child node or index in the end of between
  * @param [test=undefined]
  *   Test for child to look for (optional).
+ * @param [options=undefined]
+ *   The behaviour for including or excluding both sides (optional).
  * @returns
  *   Children (matching `test`, if given).
  */
@@ -91,19 +94,27 @@ export const findAllBetween =
   // Note: overloads like this are needed to support optional generics.
   /**
    * @type {(
-   *   (<Kind extends UnistParent, Check extends Test>(parent: Kind, indexStart: Child<Kind> | number, indexEnd: Child<Kind> | number, test: Check) => Array<Matches<Child<Kind>, Check>>) &
-   *   (<Kind extends UnistParent>(parent: Kind, indexStart: Child<Kind> | number, indexEnd: Child<Kind> | number, test?: null | undefined) => Array<Child<Kind>>)
+   *   (<Kind extends UnistParent, Check extends Test>(parent: Kind, indexStart: Child<Kind> | number, indexEnd: Child<Kind> | number, test: Check, options?: Behaviour) => Array<Matches<Child<Kind>, Check>>) &
+   *   (<Kind extends UnistParent>(parent: Kind, indexStart: Child<Kind> | number, indexEnd: Child<Kind> | number, test?: null | undefined, options?: Behaviour) => Array<Child<Kind>>)
    * )}
    */
   (
+    /**
+     * @typedef {({behaviour : "include" | "exclude"})} Behaviour
+     * whether nodes and indexes ath both sides included or exculuded.
+     * default behaviour is excluded one.
+     */
+
     /**
      * @param {UnistParent} parent
      * @param {UnistNode | number} indexStart
      * @param {UnistNode | number} indexEnd
      * @param {Test} [test]
+     * @param {undefined | Behaviour} [options]
      * @returns {Array<UnistNode>}
      */
-    function (parent, indexStart, indexEnd, test) {
+    /* eslint max-params: ["error", 5] */
+    function (parent, indexStart, indexEnd, test, options) {
       const is = convert(test)
       /** @type {Array<UnistNode>} */
       const results = []
@@ -136,9 +147,19 @@ export const findAllBetween =
         }
       }
 
-      while (++indexStart < indexEnd) {
-        if (is(parent.children[indexStart], indexStart, parent)) {
-          results.push(parent.children[indexStart])
+      if (options?.behaviour === 'include') {
+        while (indexStart <= indexEnd) {
+          if (is(parent.children[indexStart], indexStart, parent)) {
+            results.push(parent.children[indexStart])
+          }
+
+          indexStart++
+        }
+      } else {
+        while (++indexStart < indexEnd) {
+          if (is(parent.children[indexStart], indexStart, parent)) {
+            results.push(parent.children[indexStart])
+          }
         }
       }
 

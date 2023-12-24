@@ -91,7 +91,7 @@ Yields:
 This package exports the identifier [`findAllBetween`][api-find-all-between].
 There is no default export.
 
-### `findAllBetween(parent, child|index, child|index[, test])`
+### `findAllBetween(parent, child|index, child|index[, test][, options])`
 
 Find the nodes in `parent` between two `child`s or indexes, that pass `test`.
 
@@ -105,6 +105,8 @@ Find the nodes in `parent` between two `child`s or indexes, that pass `test`.
     — child in `parent`
 *   `test` ([`Test`][test])
     — `unist-util-is`-compatible test
+*   `options` ([`{behaviour: "include" | "exclude"}`][options])
+    — The behaviour for including or excluding (default) both sides (optional).
 
 ###### Returns
 

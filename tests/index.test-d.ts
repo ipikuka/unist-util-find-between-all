@@ -9,7 +9,7 @@ import type {
   TableRow,
   Text
 } from 'mdast'
-import {findAllBetween} from './index.js'
+import {findAllBetween} from '../src/index.js'
 
 const text: Text = {type: 'text', value: 'alpha'}
 const heading: Heading = {type: 'heading', depth: 1, children: [text]}
