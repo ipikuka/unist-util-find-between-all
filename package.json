@@ -32,7 +32,7 @@
     "README.md"
   ],
   "dependencies": {
-    "@types/unist": "^3.0.0",
+    "@types/unist": "^3.0.3",
     "unist-util-is": "^6.0.0"
   },
   "devDependencies": {
