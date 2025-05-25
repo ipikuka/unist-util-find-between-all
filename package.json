@@ -83,7 +83,8 @@
     "strict": true
   },
   "xo": {
-    "prettier": true
+    "prettier": true,
+    "space": true
   },
   "tsd": {
     "directory": "dist"

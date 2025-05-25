@@ -11,20 +11,18 @@ import {findAllBetween} from '../src/index.js'
 
 test('findAllBetween', async function (t) {
   await t.test('should expose the public api', async function () {
-    assert.deepEqual(Object.keys(await import('../src/index.js')).sort(), [
-      'findAllBetween'
-    ])
+    assert.deepEqual(Object.keys(await import('../src/index.js')).sort(), ['findAllBetween'])
   })
 
   const tree = fromMarkdown('Some *emphasis*, **importance**, and `code`.')
 
-  assert(tree.type === 'root')
+  assert.ok(tree.type === 'root')
   const paragraph = tree.children[0]
-  assert(paragraph.type === 'paragraph')
+  assert.ok(paragraph.type === 'paragraph')
   const head = paragraph.children[0]
-  assert(head.type === 'text')
+  assert.ok(head.type === 'text')
   const next = paragraph.children[1]
-  assert(next.type === 'emphasis')
+  assert.ok(next.type === 'emphasis')
 
   /** @type {Emphasis} */
   const emphasis = {type: 'emphasis', children: []}
@@ -111,39 +109,26 @@ test('findAllBetween', async function (t) {
     }, /Expected child node or index for end/)
   })
 
-  await t.test(
-    'should return the between nodes when without `test` (#1)',
-    async function () {
-      assert.deepEqual(
-        findAllBetween(paragraph, paragraph.children[0], paragraph.children[2]),
-        [paragraph.children[1]]
-      )
-    }
-  )
+  await t.test('should return the between nodes when without `test` (#1)', async function () {
+    assert.deepEqual(findAllBetween(paragraph, paragraph.children[0], paragraph.children[2]), [
+      paragraph.children[1]
+    ])
+  })
 
-  await t.test(
-    'should return the between nodes when without `test` (#2)',
-    async function () {
-      assert.deepEqual(findAllBetween(paragraph, 0, 2), [paragraph.children[1]])
-    }
-  )
+  await t.test('should return the between nodes when without `test` (#2)', async function () {
+    assert.deepEqual(findAllBetween(paragraph, 0, 2), [paragraph.children[1]])
+  })
 
-  await t.test(
-    'should return the between nodes when without `test` (#3)',
-    async function () {
-      assert.deepEqual(findAllBetween(paragraph, 0, 1), [])
-    }
-  )
+  await t.test('should return the between nodes when without `test` (#3)', async function () {
+    assert.deepEqual(findAllBetween(paragraph, 0, 1), [])
+  })
 
   await t.test(
     'should return `[node]` when given a `node` and existing (#1)',
     async function () {
       const head = paragraph.children[0]
-      assert(head.type === 'text')
-      assert.deepEqual(
-        findAllBetween(paragraph, 0, 100, head, {behaviour: 'include'}),
-        [head]
-      )
+      assert.ok(head.type === 'text')
+      assert.deepEqual(findAllBetween(paragraph, 0, 100, head, {behaviour: 'include'}), [head])
     }
   )
 
@@ -151,14 +136,9 @@ test('findAllBetween', async function (t) {
     'should return `[node]` when given a `node` and existing (#2)',
     async function () {
       const head = paragraph.children[0]
-      assert(head.type === 'text')
+      assert.ok(head.type === 'text')
       assert.deepEqual(
-        findAllBetween(
-          paragraph,
-          paragraph.children[0],
-          paragraph.children[6],
-          head
-        ),
+        findAllBetween(paragraph, paragraph.children[0], paragraph.children[6], head),
         []
       )
     }
@@ -168,7 +148,7 @@ test('findAllBetween', async function (t) {
     'should return `[node]` when given a `node` and existing (#3)',
     async function () {
       const head = paragraph.children[0]
-      assert(head.type === 'text')
+      assert.ok(head.type === 'text')
       assert.deepEqual(
         findAllBetween(paragraph, head, head, undefined, {
           behaviour: 'include'
@@ -182,7 +162,7 @@ test('findAllBetween', async function (t) {
     'should return `[node]` when given a `node` and existing (#4)',
     async function () {
       const head = paragraph.children[0]
-      assert(head.type === 'text')
+      assert.ok(head.type === 'text')
       assert.deepEqual(findAllBetween(paragraph, head, head), [])
     }
   )
@@ -191,7 +171,7 @@ test('findAllBetween', async function (t) {
     'should return `[node]` when given a `node` and existing (#5)',
     async function () {
       const head = paragraph.children[0]
-      assert(head.type === 'text')
+      assert.ok(head.type === 'text')
       assert.deepEqual(findAllBetween(paragraph, 0, head), [])
     }
   )
@@ -200,7 +180,7 @@ test('findAllBetween', async function (t) {
     'should return `[node]` when given a `node` and existing (#6)',
     async function () {
       const child = paragraph.children[1]
-      assert(child.type === 'emphasis')
+      assert.ok(child.type === 'emphasis')
       assert.deepEqual(findAllBetween(paragraph, 1, child), [])
     }
   )
@@ -208,9 +188,7 @@ test('findAllBetween', async function (t) {
   await t.test(
     'should return children when given a `type` and existing (#1)',
     async function () {
-      assert.deepEqual(findAllBetween(paragraph, 0, 100, 'strong'), [
-        paragraph.children[3]
-      ])
+      assert.deepEqual(findAllBetween(paragraph, 0, 100, 'strong'), [paragraph.children[3]])
     }
   )
 
@@ -224,20 +202,16 @@ test('findAllBetween', async function (t) {
   await t.test(
     'should return children when given a `type` and existing (#3)',
     async function () {
-      assert.deepEqual(
-        findAllBetween(paragraph, 0, paragraph.children[4], 'strong'),
-        [paragraph.children[3]]
-      )
+      assert.deepEqual(findAllBetween(paragraph, 0, paragraph.children[4], 'strong'), [
+        paragraph.children[3]
+      ])
     }
   )
 
   await t.test(
     'should return children when given a `type` and existing (#4)',
     async function () {
-      assert.deepEqual(
-        findAllBetween(paragraph, 0, paragraph.children[3], 'strong'),
-        []
-      )
+      assert.deepEqual(findAllBetween(paragraph, 0, paragraph.children[3], 'strong'), [])
     }
   )
 
@@ -260,20 +234,14 @@ test('findAllBetween', async function (t) {
   await t.test(
     'should return children when given a `test` and existing (#3)',
     async function () {
-      assert.deepEqual(
-        findAllBetween(paragraph, 0, paragraph.children[4], check),
-        []
-      )
+      assert.deepEqual(findAllBetween(paragraph, 0, paragraph.children[4], check), [])
     }
   )
 
   await t.test(
     'should return children when given a `test` and existing (#4)',
     async function () {
-      assert.deepEqual(
-        findAllBetween(paragraph, 0, paragraph.children[3], check),
-        []
-      )
+      assert.deepEqual(findAllBetween(paragraph, 0, paragraph.children[3], check), [])
     }
   )
 })
