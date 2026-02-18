@@ -1,3 +1,17 @@
+**A robust Next.js newsletter `Next.js Weekly` is sponsoring me** 💖
+[![NextjsWeekly banner](./assets/next-js-weekly.png)](https://nextjsweekly.com/)
+
+### [Become a sponsor](https://github.com/sponsors/ipikuka) 🚀
+
+If you find **`unist-util-find-between-all`** useful in your projects, consider supporting my work.  
+Your sponsorship means a lot 💖
+
+My sponsors are going to be featured here and on [my sponsor wall](https://github.com/sponsors/ipikuka).
+
+A warm thanks 🙌 to [@ErfanEbrahimnia](https://github.com/ErfanEbrahimnia), [@recepkyk](https://github.com/recepkyk), and [@LSeaburg](https://github.com/LSeaburg) for the support!
+
+Thank you for supporting open source! 🙌
+
 # unist-util-find-between-all
 
 [![Build][build-badge]][build]
@@ -12,17 +26,21 @@
 
 ## Contents
 
-*   [What is this?](#what-is-this)
-*   [When should I use this?](#when-should-i-use-this)
-*   [Install](#install)
-*   [Use](#use)
-*   [API](#api)
-    *   [`findAllBetween(parent, child|index, child|index[, test])`](#findallbetweenparent-childindex-test)
-*   [Types](#types)
-*   [Compatibility](#compatibility)
-*   [Related](#related)
-*   [Contribute](#contribute)
-*   [License](#license)
+- [unist-util-find-between-all](#unist-util-find-between-all)
+  - [Contents](#contents)
+  - [What is this?](#what-is-this)
+  - [When should I use this?](#when-should-i-use-this)
+  - [Install](#install)
+  - [Use](#use)
+  - [API](#api)
+    - [`findAllBetween(parent, child|index, child|index[, test][, options])`](#findallbetweenparent-childindex-childindex-test-options)
+          - [Parameters](#parameters)
+          - [Returns](#returns)
+  - [Types](#types)
+  - [Compatibility](#compatibility)
+  - [Related](#related)
+  - [Contribute](#contribute)
+  - [License](#license)
 
 ## What is this?
 
