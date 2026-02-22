@@ -40,6 +40,11 @@ Thank you for supporting open source! 🙌
   - [Compatibility](#compatibility)
   - [Related](#related)
   - [Contribute](#contribute)
+  - [My Plugins](#my-plugins)
+    - [My Remark Plugins](#my-remark-plugins)
+    - [My Rehype Plugins](#my-rehype-plugins)
+    - [My Recma Plugins](#my-recma-plugins)
+    - [My Unist Utils and Plugins](#my-unist-utils-and-plugins)
   - [License](#license)
 
 ## What is this?
@@ -176,6 +181,66 @@ See [`support.md`][support] for ways to get help.
 This project has a [code of conduct][coc].
 By interacting with this repository, organization, or community you agree to
 abide by its terms.
+
+## My Plugins
+
+I like to contribute the Unified / Remark / MDX ecosystem, so I recommend you to have a look my plugins.
+
+### My Remark Plugins
+
+- [`remark-flexible-code-titles`](https://www.npmjs.com/package/remark-flexible-code-titles)
+  – Remark plugin to add titles or/and containers for the code blocks with customizable properties
+- [`remark-flexible-containers`](https://www.npmjs.com/package/remark-flexible-containers)
+  – Remark plugin to add custom containers with customizable properties in markdown
+- [`remark-ins`](https://www.npmjs.com/package/remark-ins)
+  – Remark plugin to add `ins` element in markdown
+- [`remark-flexible-paragraphs`](https://www.npmjs.com/package/remark-flexible-paragraphs)
+  – Remark plugin to add custom paragraphs with customizable properties in markdown
+- [`remark-flexible-markers`](https://www.npmjs.com/package/remark-flexible-markers)
+  – Remark plugin to add custom `mark` element with customizable properties in markdown
+- [`remark-flexible-toc`](https://www.npmjs.com/package/remark-flexible-toc)
+  – Remark plugin to expose the table of contents via `vfile.data` or via an option reference
+- [`remark-mdx-remove-esm`](https://www.npmjs.com/package/remark-mdx-remove-esm)
+  – Remark plugin to remove import and/or export statements (mdxjsEsm)
+- [`remark-mdx-remove-expressions`](https://www.npmjs.com/package/remark-mdx-remove-expressions)
+  – Remark plugin to remove MDX expressions within curlybraces {} in MDX content
+
+### My Rehype Plugins
+
+- [`rehype-pre-language`](https://www.npmjs.com/package/rehype-pre-language)
+  – Rehype plugin to add language information as a property to `pre` element
+- [`rehype-highlight-code-lines`](https://www.npmjs.com/package/rehype-highlight-code-lines)
+  – Rehype plugin to add line numbers to code blocks and allow highlighting of desired code lines
+- [`rehype-code-meta`](https://www.npmjs.com/package/rehype-code-meta)
+  – Rehype plugin to copy `code.data.meta` to `code.properties.metastring`
+- [`rehype-image-toolkit`](https://www.npmjs.com/package/rehype-image-toolkit)
+  – Rehype plugin to enhance Markdown image syntax `![]()` and Markdown/MDX media elements (`<img>`, `<audio>`, `<video>`) by auto-linking bracketed or parenthesized image URLs, wrapping them in `<figure>` with optional captions, unwrapping images/videos/audio from paragraph, parsing directives in title for styling and adding attributes, and dynamically converting images into `<video>` or `<audio>` elements based on file extension.
+
+### My Recma Plugins
+
+- [`recma-mdx-escape-missing-components`](https://www.npmjs.com/package/recma-mdx-escape-missing-components)
+  – Recma plugin to set the default value `() => null` for the Components in MDX in case of missing or not provided so as not to throw an error
+- [`recma-mdx-change-props`](https://www.npmjs.com/package/recma-mdx-change-props)
+  – Recma plugin to change the `props` parameter into the `_props` in the `function _createMdxContent(props) {/* */}` in the compiled source in order to be able to use `{props.foo}` like expressions. It is useful for the `next-mdx-remote` or `next-mdx-remote-client` users in `nextjs` applications.
+- [`recma-mdx-change-imports`](https://www.npmjs.com/package/recma-mdx-change-imports)
+  – Recma plugin to convert import declarations for assets and media with relative links into variable declarations with string URLs, enabling direct asset URL resolution in compiled MDX.
+- [`recma-mdx-import-media`](https://www.npmjs.com/package/recma-mdx-import-media)
+  – Recma plugin to turn media relative paths into import declarations for both markdown and html syntax in MDX.
+- [`recma-mdx-import-react`](https://www.npmjs.com/package/recma-mdx-import-react)
+  – Recma plugin to ensure getting `React` instance from the arguments and to make the runtime props `{React, jsx, jsxs, jsxDev, Fragment}` is available in the dynamically imported components in the compiled source of MDX.
+- [`recma-mdx-html-override`](https://www.npmjs.com/package/recma-mdx-html-override)
+  – Recma plugin to allow selected raw HTML elements to be overridden via MDX components.
+- [`recma-mdx-interpolate`](https://www.npmjs.com/package/recma-mdx-interpolate)
+  – Recma plugin to enable interpolation of identifiers wrapped in curly braces within the `alt`, `src`, `href`, and `title` attributes of markdown link and image syntax in MDX.
+
+### My Unist Utils and Plugins
+
+I also build low-level utilities and plugins for the Unist ecosystem that can be used across Remark, Rehype, Recma, and other syntax trees.
+
+- [`unist-util-find-between-all`](https://www.npmjs.com/package/unist-util-find-between-all)
+  – Unist utility to find the nodes between two nodes.
+- [`unist-plugin-log-tree`](https://www.npmjs.com/package/unist-plugin-log-tree)
+  – Debugging plugin for the unified ecosystem that logs abstract syntax trees (ASTs) without transforming.
 
 ## License
 
