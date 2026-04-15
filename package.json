@@ -1,5 +1,5 @@
 {
-  "name": "unist-util-find-between-all",
+  "name": "unist-util-find-between",
   "version": "1.1.6",
   "description": "unist utility to find the nodes between two nodes",
   "license": "MIT",
@@ -13,8 +13,8 @@
     "find",
     "between"
   ],
-  "repository": "ipikuka/unist-util-find-between-all",
-  "bugs": "https://github.com/ipikuka/unist-util-find-between-all/issues",
+  "repository": "ipikuka/unist-util-find-between",
+  "bugs": "https://github.com/ipikuka/unist-util-find-between/issues",
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/unified"

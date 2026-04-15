@@ -3,7 +3,7 @@
 
 ### [Become a sponsor](https://github.com/sponsors/ipikuka) 🚀
 
-If you find **`unist-util-find-between-all`** useful in your projects, consider supporting my work.  
+If you find **`unist-util-find-between`** useful in your projects, consider supporting my work.  
 Your sponsorship means a lot 💖
 
 My sponsors are going to be featured here and on [my sponsor wall](https://github.com/sponsors/ipikuka).
@@ -12,7 +12,7 @@ A warm thanks 🙌 to [@ErfanEbrahimnia](https://github.com/ErfanEbrahimnia), [@
 
 Thank you for supporting open source! 🙌
 
-# unist-util-find-between-all
+# unist-util-find-between
 
 [![Build][build-badge]][build]
 [![Coverage][coverage-badge]][coverage]
@@ -26,7 +26,7 @@ Thank you for supporting open source! 🙌
 
 ## Contents
 
-- [unist-util-find-between-all](#unist-util-find-between-all)
+- [unist-util-find-between](#unist-util-find-between)
   - [Contents](#contents)
   - [What is this?](#what-is-this)
   - [When should I use this?](#when-should-i-use-this)
@@ -64,20 +64,20 @@ This package is [ESM only][esm].
 In Node.js (version 16+), install with [npm][]:
 
 ```sh
-npm install unist-util-find-between-all
+npm install unist-util-find-between
 ```
 
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import {findAllBetween} from 'https://esm.sh/unist-util-find-between-all@1'
+import {findAllBetween} from 'https://esm.sh/unist-util-find-between@1'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import {findAllBetween} from 'https://esm.sh/unist-util-find-between-all@1?bundle'
+  import {findAllBetween} from 'https://esm.sh/unist-util-find-between@1?bundle'
 </script>
 ```
 
@@ -85,7 +85,7 @@ In browsers with [`esm.sh`][esmsh]:
 
 ```js
 import {u} from 'unist-builder'
-import {findAllBetween} from 'unist-util-find-between-all'
+import {findAllBetween} from 'unist-util-find-between'
 
 const tree = u('tree', [
   u('leaf', 'leaf 1'),
@@ -237,7 +237,7 @@ I like to contribute the Unified / Remark / MDX ecosystem, so I recommend you to
 
 I also build low-level utilities and plugins for the Unist ecosystem that can be used across Remark, Rehype, Recma, and other syntax trees.
 
-- [`unist-util-find-between-all`](https://www.npmjs.com/package/unist-util-find-between-all)
+- [`unist-util-find-between`](https://www.npmjs.com/package/unist-util-find-between)
   – Unist utility to find the nodes between two nodes.
 - [`unist-plugin-log-tree`](https://www.npmjs.com/package/unist-plugin-log-tree)
   – Debugging plugin for the unified ecosystem that logs abstract syntax trees (ASTs) without transforming.
@@ -248,21 +248,21 @@ I also build low-level utilities and plugins for the Unist ecosystem that can be
 
 <!-- Definitions -->
 
-[build-badge]: https://github.com/ipikuka/unist-util-find-between-all/workflows/main/badge.svg
+[build-badge]: https://github.com/ipikuka/unist-util-find-between/workflows/main/badge.svg
 
-[build]: https://github.com/ipikuka/unist-util-find-between-all/actions
+[build]: https://github.com/ipikuka/unist-util-find-between/actions
 
-[coverage-badge]: https://img.shields.io/codecov/c/github/ipikuka/unist-util-find-between-all.svg
+[coverage-badge]: https://img.shields.io/codecov/c/github/ipikuka/unist-util-find-between.svg
 
-[coverage]: https://codecov.io/github/ipikuka/unist-util-find-between-all
+[coverage]: https://codecov.io/github/ipikuka/unist-util-find-between
 
-[downloads-badge]: https://img.shields.io/npm/dm/unist-util-find-between-all.svg
+[downloads-badge]: https://img.shields.io/npm/dm/unist-util-find-between.svg
 
-[downloads]: https://www.npmjs.com/package/unist-util-find-between-all
+[downloads]: https://www.npmjs.com/package/unist-util-find-between
 
-[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size&query=$.size.compressedSize&url=https://deno.bundlejs.com/?q=unist-util-find-between-all
+[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size&query=$.size.compressedSize&url=https://deno.bundlejs.com/?q=unist-util-find-between
 
-[size]: https://bundlejs.com/?q=unist-util-find-between-all
+[size]: https://bundlejs.com/?q=unist-util-find-between
 
 [sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
 
