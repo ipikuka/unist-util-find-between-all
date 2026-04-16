@@ -48,6 +48,7 @@
     "url": "https://github.com/ipikuka/unist-util-find-between/issues"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/mdast": "^4.0.4",
     "@types/node": "^24.12.2",
     "c8": "^11.0.0",

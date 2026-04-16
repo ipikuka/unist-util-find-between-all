@@ -3,7 +3,6 @@ import { defineConfig } from "eslint/config";
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 import globals from "globals";
-import vitest from "@vitest/eslint-plugin";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 
 export default defineConfig(
@@ -32,10 +31,6 @@ export default defineConfig(
     name: "javascript",
     files: ["**/*.js"],
     ...tseslint.configs.disableTypeChecked,
-  },
-  {
-    files: ["tests/**/*.spec.ts"],
-    ...vitest.configs.recommended,
   },
   eslintPluginPrettierRecommended,
 );
