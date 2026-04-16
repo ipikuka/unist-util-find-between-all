@@ -1,43 +1,52 @@
-import {expectType} from 'tsd'
+import { expectType } from "tsd";
 import type {
   Heading,
+  Paragraph,
   PhrasingContent,
   Root,
   RootContent,
   RowContent,
   TableCell,
   TableRow,
-  Text
-} from 'mdast'
-import {findAllBetween} from '../src/index.js'
+  Text,
+} from "mdast";
 
-const text: Text = {type: 'text', value: 'alpha'}
-const heading: Heading = {type: 'heading', depth: 1, children: [text]}
-const root: Root = {type: 'root', children: [heading]}
-const cell: TableCell = {type: 'tableCell', children: [text]}
-const row: TableRow = {type: 'tableRow', children: [cell]}
+import { findBetween } from "../src/index.js";
+
+const text: Text = { type: "text", value: "alpha" };
+const paragraph: Paragraph = { type: "paragraph", children: [text] };
+const paragraph2: Paragraph = { type: "paragraph", children: [text] };
+const heading: Heading = { type: "heading", depth: 1, children: [text] };
+const heading2: Heading = { type: "heading", depth: 1, children: [text] };
+const root: Root = { type: "root", children: [heading, paragraph, heading2, paragraph2] };
+const cell: TableCell = { type: "tableCell", children: [text] };
+const row: TableRow = { type: "tableRow", children: [cell] };
 
 // @ts-expect-error: parent needed.
-findAllBetween()
+findBetween();
 
 // @ts-expect-error: child or index needed.
-findAllBetween(heading)
+findBetween(heading);
 
-findAllBetween(
+findBetween(
   // @ts-expect-error: parent needed.
   text,
   0,
-  1
-)
+  1,
+);
 
-expectType<PhrasingContent[]>(findAllBetween(heading, text, text))
+expectType<PhrasingContent[]>(findBetween(heading, text, text));
 
-expectType<Text[]>(findAllBetween(heading, text, text, 'text'))
+expectType<Text[]>(findBetween(heading, text, text, "text"));
 
-expectType<Text[]>(findAllBetween(heading, 0, text, 'text'))
+expectType<Text[]>(findBetween(heading, 0, text, "text"));
 
-expectType<RootContent[]>(findAllBetween(root, text, 0))
+expectType<RootContent[]>(findBetween(root, text, 0));
 
-expectType<Text[]>(findAllBetween(root, 0, text, 'text'))
+expectType<RootContent[]>(findBetween(root, 0, paragraph2, { type: "heading" }));
 
-expectType<RowContent[]>(findAllBetween(row, 0, cell))
+expectType<Heading[]>(findBetween(root, 0, paragraph2, "heading"));
+
+expectType<RootContent[]>(findBetween(root, 0, paragraph2, "heading"));
+
+expectType<RowContent[]>(findBetween(row, 0, cell));

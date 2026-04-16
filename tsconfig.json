@@ -1,16 +1,18 @@
 {
   "compilerOptions": {
-    "lib": ["es2022"],
-    "target": "es2022",
-    "module": "node16",
-    "strict": true,
+    "lib": ["ES2022"],
+    "target": "ES2022",
+    "module": "Node16",
+    "moduleResolution": "Node16",
     "checkJs": true,
-    "customConditions": ["development"],
-    "exactOptionalPropertyTypes": true,
+    "strict": true,
     "declaration": true,
+    "declarationMap": true,
     "sourceMap": true,
     "inlineSources": true,
-    "outDir": "dist"
+    "noEmit": true,
+    "noImplicitReturns": true,
+    "exactOptionalPropertyTypes": true
   },
-  "include": ["src/"]
+  "include": ["src", "tests"]
 }

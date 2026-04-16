@@ -1,0 +1,41 @@
+// @ts-check
+import { defineConfig } from "eslint/config";
+import eslint from "@eslint/js";
+import tseslint from "typescript-eslint";
+import globals from "globals";
+import vitest from "@vitest/eslint-plugin";
+import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
+
+export default defineConfig(
+  {
+    ignores: [
+      ".DS_Store",
+      ".vscode/",
+      "archive/",
+      "coverage/",
+      "dist/",
+      "node_modules/",
+      "package-lock.json",
+      "tsconfig.build.tsbuildinfo",
+    ],
+  },
+  eslint.configs.recommended,
+  tseslint.configs.recommended,
+  {
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+  },
+  {
+    name: "javascript",
+    files: ["**/*.js"],
+    ...tseslint.configs.disableTypeChecked,
+  },
+  {
+    files: ["tests/**/*.spec.ts"],
+    ...vitest.configs.recommended,
+  },
+  eslintPluginPrettierRecommended,
+);

@@ -33,7 +33,7 @@ Thank you for supporting open source! 🙌
   - [Install](#install)
   - [Use](#use)
   - [API](#api)
-    - [`findAllBetween(parent, child|index, child|index[, test][, options])`](#findallbetweenparent-childindex-childindex-test-options)
+    - [`findBetween(parent, child|index, child|index[, test][, options])`](#findBetweenparent-childindex-childindex-test-options)
           - [Parameters](#parameters)
           - [Returns](#returns)
   - [Types](#types)
@@ -70,14 +70,14 @@ npm install unist-util-find-between
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import {findAllBetween} from 'https://esm.sh/unist-util-find-between@1'
+import {findBetween} from 'https://esm.sh/unist-util-find-between@1'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import {findAllBetween} from 'https://esm.sh/unist-util-find-between@1?bundle'
+  import {findBetween} from 'https://esm.sh/unist-util-find-between@1?bundle'
 </script>
 ```
 
@@ -85,7 +85,7 @@ In browsers with [`esm.sh`][esmsh]:
 
 ```js
 import {u} from 'unist-builder'
-import {findAllBetween} from 'unist-util-find-between'
+import {findBetween} from 'unist-util-find-between'
 
 const tree = u('tree', [
   u('leaf', 'leaf 1'),
@@ -97,7 +97,7 @@ const tree = u('tree', [
   u('leaf', 'leaf 7')
 ])
 
-console.log(findAllBetween(tree, 1, 5, 'leaf'))
+console.log(findBetween(tree, 1, 5, 'leaf'))
 ```
 
 Yields:
@@ -111,10 +111,10 @@ Yields:
 
 ## API
 
-This package exports the identifier [`findAllBetween`][api-find-all-between].
+This package exports the identifier [`findBetween`][api-find-all-between].
 There is no default export.
 
-### `findAllBetween(parent, child|index, child|index[, test][, options])`
+### `findBetween(parent, child|index, child|index[, test][, options])`
 
 Find the nodes in `parent` between two `child`s or indexes, that pass `test`.
 
@@ -300,4 +300,4 @@ I also build low-level utilities and plugins for the Unist ecosystem that can be
 
 [test]: https://github.com/syntax-tree/unist-util-is#test
 
-[api-find-all-between]: #findallbetweenparent-childindex-test
+[api-find-all-between]: #findBetweenparent-childindex-test

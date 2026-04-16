@@ -1,2 +1,9 @@
-coverage/
-*.md
+.DS_Store
+.vscode
+archive
+coverage
+dist
+node_modules
+package-lock.json
+README.md
+tsconfig.build.tsbuildinfo
