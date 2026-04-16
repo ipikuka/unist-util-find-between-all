@@ -73,9 +73,9 @@
 import { convert } from "unist-util-is";
 
 /**
- * Find the nodes in `parent` between two `node`s or two indexes, that
- * pass `test`. Nodes and indexes at both sides are excluded, but there is an
- * option for including both sides
+ * Find the nodes in `parent` between two `node`s or two indexes, that pass `test`.
+ * Nodes and indexes at both sides are excluded by default.
+ * Use 'findBetweenIncluded' for including both sides.
  *
  * @param parent
  *   Parent node.
@@ -94,27 +94,20 @@ export const findBetween =
   // Note: overloads like this are needed to support optional generics.
   /**
    * @type {(
-   *   (<Kind extends UnistParent, Check extends Test>(parent: Kind, indexStart: Child<Kind> | number, indexEnd: Child<Kind> | number, test: Check, options?: Behaviour) => Array<Matches<Child<Kind>, Check>>) &
-   *   (<Kind extends UnistParent>(parent: Kind, indexStart: Child<Kind> | number, indexEnd: Child<Kind> | number, test?: null | undefined, options?: Behaviour) => Array<Child<Kind>>)
+   *   (<Kind extends UnistParent, Check extends Test>(parent: Kind, indexStart: Child<Kind> | number, indexEnd: Child<Kind> | number, test: Check) => Array<Matches<Child<Kind>, Check>>) &
+   *   (<Kind extends UnistParent>(parent: Kind, indexStart: Child<Kind> | number, indexEnd: Child<Kind> | number, test?: null | undefined) => Array<Child<Kind>>)
    * )}
    */
   (
-    /**
-     * @typedef {({behaviour : "include" | "exclude"})} Behaviour
-     * whether nodes and indexes ath both sides included or exculuded.
-     * default behaviour is excluded one.
-     */
-
     /**
      * @param {UnistParent} parent
      * @param {UnistNode | number} indexStart
      * @param {UnistNode | number} indexEnd
      * @param {Test} [test]
-     * @param {undefined | Behaviour} [options]
      * @returns {Array<UnistNode>}
      */
-    /* eslint max-params: ["error", 5] */
-    function (parent, indexStart, indexEnd, test, options) {
+    /* eslint max-params: ["error", 4] */
+    function (parent, indexStart, indexEnd, test) {
       const is = convert(test);
       /** @type {Array<UnistNode>} */
       const results = [];
@@ -147,20 +140,89 @@ export const findBetween =
         }
       }
 
-      if (options?.behaviour === "include") {
-        while (indexStart <= indexEnd) {
-          if (is(parent.children[indexStart], indexStart, parent)) {
-            results.push(parent.children[indexStart]);
-          }
+      while (++indexStart < indexEnd) {
+        if (is(parent.children[indexStart], indexStart, parent)) {
+          results.push(parent.children[indexStart]);
+        }
+      }
 
-          indexStart++;
+      return results;
+    }
+  );
+
+/**
+ * Find the nodes in `parent` between two `node`s or two indexes, that pass `test`.
+ * Nodes and indexes at both sides are included by default.
+ * Use 'findBetween' for excluding both sides.
+ *
+ * @param parent
+ *   Parent node.
+ * @param indexStart
+ *   Child node or index in the start of between
+ * @param indexEnd
+ *   Child node or index in the end of between
+ * @param [test=undefined]
+ *   Test for child to look for (optional).
+ * @param [options=undefined]
+ *   The behaviour for including or excluding both sides (optional).
+ * @returns
+ *   Children (matching `test`, if given).
+ */
+export const findBetweenIncluded =
+  // Note: overloads like this are needed to support optional generics.
+  /**
+   * @type {(
+   *   (<Kind extends UnistParent, Check extends Test>(parent: Kind, indexStart: Child<Kind> | number, indexEnd: Child<Kind> | number, test: Check) => Array<Matches<Child<Kind>, Check>>) &
+   *   (<Kind extends UnistParent>(parent: Kind, indexStart: Child<Kind> | number, indexEnd: Child<Kind> | number, test?: null | undefined) => Array<Child<Kind>>)
+   * )}
+   */
+  (
+    /**
+     * @param {UnistParent} parent
+     * @param {UnistNode | number} indexStart
+     * @param {UnistNode | number} indexEnd
+     * @param {Test} [test]
+     * @returns {Array<UnistNode>}
+     */
+    function (parent, indexStart, indexEnd, test) {
+      const is = convert(test);
+      /** @type {Array<UnistNode>} */
+      const results = [];
+
+      if (!parent || !parent.type || !parent.children) {
+        throw new Error("Expected parent node");
+      }
+
+      if (typeof indexStart === "number") {
+        if (indexStart < 0 || indexStart === Number.POSITIVE_INFINITY) {
+          throw new Error("Expected positive finite number as index for start");
         }
       } else {
-        while (++indexStart < indexEnd) {
-          if (is(parent.children[indexStart], indexStart, parent)) {
-            results.push(parent.children[indexStart]);
-          }
+        indexStart = parent.children.indexOf(indexStart);
+
+        if (indexStart < 0) {
+          throw new Error("Expected child node or index for start");
         }
+      }
+
+      if (typeof indexEnd === "number") {
+        if (indexEnd < 0 || indexEnd === Number.POSITIVE_INFINITY) {
+          throw new Error("Expected positive finite number as index for end");
+        }
+      } else {
+        indexEnd = parent.children.indexOf(indexEnd);
+
+        if (indexEnd < 0) {
+          throw new Error("Expected child node or index for end");
+        }
+      }
+
+      while (indexStart <= indexEnd) {
+        if (is(parent.children[indexStart], indexStart, parent)) {
+          results.push(parent.children[indexStart]);
+        }
+
+        indexStart++;
       }
 
       return results;

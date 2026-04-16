@@ -8,11 +8,14 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { fromMarkdown } from "mdast-util-from-markdown";
 
-import { findBetween } from "../src/index.js";
+import { findBetween, findBetweenIncluded } from "../src/index.js";
 
 test("findBetween", async function (t) {
   await t.test("should expose the public api", async function () {
-    assert.deepEqual(Object.keys(await import("../src/index.js")).sort(), ["findBetween"]);
+    assert.deepEqual(Object.keys(await import("../src/index.js")).sort(), [
+      "findBetween",
+      "findBetweenIncluded",
+    ]);
   });
 
   const tree = fromMarkdown("Some *emphasis*, **importance**, and `code`.");
@@ -127,7 +130,7 @@ test("findBetween", async function (t) {
     async function () {
       const head = paragraph.children[0];
       assert.ok(head.type === "text");
-      assert.deepEqual(findBetween(paragraph, 0, 100, head, { behaviour: "include" }), [head]);
+      assert.deepEqual(findBetweenIncluded(paragraph, 0, 100, head), [head]);
     },
   );
 
@@ -148,12 +151,7 @@ test("findBetween", async function (t) {
     async function () {
       const head = paragraph.children[0];
       assert.ok(head.type === "text");
-      assert.deepEqual(
-        findBetween(paragraph, head, head, undefined, {
-          behaviour: "include",
-        }),
-        [head],
-      );
+      assert.deepEqual(findBetweenIncluded(paragraph, head, head), [head]);
     },
   );
 

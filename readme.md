@@ -239,12 +239,12 @@ I also build low-level utilities and plugins for the Unist ecosystem that can be
 
 - [`unist-util-find-between`](https://www.npmjs.com/package/unist-util-find-between)
   – Unist utility to find the nodes between two nodes.
-- [`unist-plugin-log-tree`](https://www.npmjs.com/package/unist-plugin-log-tree)
-  – Debugging plugin for the unified ecosystem that logs abstract syntax trees (ASTs) without transforming.
+- [`unified-log-tree`](https://www.npmjs.com/package/unified-log-tree)
+  – Debugging plugin for the unified ecosystem that logs abstract syntax trees (ASTs) without mutating.
 
 ## License
 
-[MIT][license] © [Talat Kuyuk][author]
+[MIT License](./LICENSE) © ipikuka
 
 <!-- Definitions -->
 
