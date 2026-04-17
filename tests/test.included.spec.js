@@ -8,9 +8,9 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { fromMarkdown } from "mdast-util-from-markdown";
 
-import { findBetween } from "../src/index.js";
+import { findBetweenIncluded } from "../src/index.js";
 
-test("findBetween", async function (t) {
+test("findBetweenIncluded", async function (t) {
   const tree = fromMarkdown("Some *emphasis*, **importance**, and `code`.");
 
   assert.ok(tree.type === "root");
@@ -29,41 +29,41 @@ test("findBetween", async function (t) {
   await t.test("should fail without parent", async function () {
     assert.throws(function () {
       // @ts-expect-error: check that an error is thrown at runtime.
-      findBetween();
+      findBetweenIncluded();
     }, /Expected parent node/);
   });
 
   await t.test("should fail without parent node", async function () {
     assert.throws(function () {
       // @ts-expect-error: check that an error is thrown at runtime.
-      findBetween(inlineCode);
+      findBetweenIncluded(inlineCode);
     }, /Expected parent node/);
   });
 
   await t.test("should fail without starting index (#1)", async function () {
     assert.throws(function () {
       // @ts-expect-error: check that an error is thrown at runtime.
-      findBetween(emphasis);
+      findBetweenIncluded(emphasis);
     }, /Expected child node or index for start/);
   });
 
   await t.test("should fail without starting index (#2)", async function () {
     assert.throws(function () {
       // @ts-expect-error: check that an error is thrown at runtime.
-      findBetween(emphasis, -1);
+      findBetweenIncluded(emphasis, -1);
     }, /Expected positive finite number as index for start/);
   });
 
   await t.test("should fail without starting index (#3)", async function () {
     assert.throws(function () {
       // @ts-expect-error: check that an error is thrown at runtime.
-      findBetween(emphasis, inlineCode);
+      findBetweenIncluded(emphasis, inlineCode);
     }, /Expected child node or index for start/);
   });
 
   await t.test("should fail for invalid `test` (#1)", async function () {
     assert.throws(function () {
-      findBetween(
+      findBetweenIncluded(
         paragraph,
         0,
         6,
@@ -75,7 +75,7 @@ test("findBetween", async function (t) {
 
   await t.test("should fail for invalid `test` (#2)", async function () {
     assert.throws(function () {
-      findBetween(
+      findBetweenIncluded(
         paragraph,
         0,
         6,
@@ -88,34 +88,42 @@ test("findBetween", async function (t) {
   await t.test("should fail without ending index (#1)", async function () {
     assert.throws(function () {
       // @ts-expect-error: check that an error is thrown at runtime.
-      findBetween(paragraph, 0);
+      findBetweenIncluded(paragraph, 0);
     }, /Expected child node or index for end/);
   });
 
   await t.test("should fail without ending index (#2)", async function () {
     assert.throws(function () {
-      findBetween(paragraph, 0, -1);
+      findBetweenIncluded(paragraph, 0, -1);
     }, /Expected positive finite number as index for end/);
   });
 
   await t.test("should fail without ending index (#3)", async function () {
     assert.throws(function () {
-      findBetween(paragraph, 0, inlineCode);
+      findBetweenIncluded(paragraph, 0, inlineCode);
     }, /Expected child node or index for end/);
   });
 
   await t.test("should return the between nodes when without `test` (#1)", async function () {
-    assert.deepEqual(findBetween(paragraph, paragraph.children[0], paragraph.children[2]), [
-      paragraph.children[1],
-    ]);
+    assert.deepEqual(
+      findBetweenIncluded(paragraph, paragraph.children[0], paragraph.children[2]),
+      [paragraph.children[0], paragraph.children[1], paragraph.children[2]],
+    );
   });
 
   await t.test("should return the between nodes when without `test` (#2)", async function () {
-    assert.deepEqual(findBetween(paragraph, 0, 2), [paragraph.children[1]]);
+    assert.deepEqual(findBetweenIncluded(paragraph, 0, 2), [
+      paragraph.children[0],
+      paragraph.children[1],
+      paragraph.children[2],
+    ]);
   });
 
   await t.test("should return the between nodes when without `test` (#3)", async function () {
-    assert.deepEqual(findBetween(paragraph, 0, 1), []);
+    assert.deepEqual(findBetweenIncluded(paragraph, 0, 1), [
+      paragraph.children[0],
+      paragraph.children[1],
+    ]);
   });
 
   await t.test(
@@ -123,7 +131,7 @@ test("findBetween", async function (t) {
     async function () {
       const head = paragraph.children[0];
       assert.ok(head.type === "text");
-      assert.deepEqual(findBetween(paragraph, 0, 100, head), []);
+      assert.deepEqual(findBetweenIncluded(paragraph, 0, 100, head), [head]);
     },
   );
 
@@ -133,8 +141,8 @@ test("findBetween", async function (t) {
       const head = paragraph.children[0];
       assert.ok(head.type === "text");
       assert.deepEqual(
-        findBetween(paragraph, paragraph.children[0], paragraph.children[6], head),
-        [],
+        findBetweenIncluded(paragraph, paragraph.children[0], paragraph.children[6], head),
+        [head],
       );
     },
   );
@@ -144,7 +152,7 @@ test("findBetween", async function (t) {
     async function () {
       const head = paragraph.children[0];
       assert.ok(head.type === "text");
-      assert.deepEqual(findBetween(paragraph, head, head), []);
+      assert.deepEqual(findBetweenIncluded(paragraph, head, head), [head]);
     },
   );
 
@@ -153,7 +161,7 @@ test("findBetween", async function (t) {
     async function () {
       const head = paragraph.children[0];
       assert.ok(head.type === "text");
-      assert.deepEqual(findBetween(paragraph, 0, head), []);
+      assert.deepEqual(findBetweenIncluded(paragraph, 0, head), [head]);
     },
   );
 
@@ -162,29 +170,33 @@ test("findBetween", async function (t) {
     async function () {
       const child = paragraph.children[1];
       assert.ok(child.type === "emphasis");
-      assert.deepEqual(findBetween(paragraph, 1, child), []);
+      assert.deepEqual(findBetweenIncluded(paragraph, 1, child), [child]);
     },
   );
 
   await t.test(
     "should return children when given a `type` and existing (#1)",
     async function () {
-      assert.deepEqual(findBetween(paragraph, 0, 100, "strong"), [paragraph.children[3]]);
+      const strong = paragraph.children[3];
+      assert.ok(strong.type === "strong");
+      assert.deepEqual(findBetweenIncluded(paragraph, 0, 100, "strong"), [strong]);
     },
   );
 
   await t.test(
     "should return children when given a `type` and existing (#2)",
     async function () {
-      assert.deepEqual(findBetween(paragraph, 0, 3, "strong"), []);
+      assert.deepEqual(findBetweenIncluded(paragraph, 0, 3, "strong"), [paragraph.children[3]]);
     },
   );
 
   await t.test(
     "should return children when given a `type` and existing (#3)",
     async function () {
-      assert.deepEqual(findBetween(paragraph, 0, paragraph.children[4], "strong"), [
-        paragraph.children[3],
+      const strong = paragraph.children[3];
+      assert.ok(strong.type === "strong");
+      assert.deepEqual(findBetweenIncluded(paragraph, 0, paragraph.children[4], "strong"), [
+        strong,
       ]);
     },
   );
@@ -192,7 +204,11 @@ test("findBetween", async function (t) {
   await t.test(
     "should return children when given a `type` and existing (#4)",
     async function () {
-      assert.deepEqual(findBetween(paragraph, 0, paragraph.children[3], "strong"), []);
+      const strong = paragraph.children[3];
+      assert.ok(strong.type === "strong");
+      assert.deepEqual(findBetweenIncluded(paragraph, 0, paragraph.children[3], "strong"), [
+        strong,
+      ]);
     },
   );
 
@@ -200,29 +216,30 @@ test("findBetween", async function (t) {
     "should return children when given a `test` and existing (#1)",
     async function () {
       const result = paragraph.children.slice(4);
-
-      assert.deepEqual(findBetween(paragraph, 0, 100, check), result);
+      assert.deepEqual(findBetweenIncluded(paragraph, 0, 100, check), result);
     },
   );
 
   await t.test(
     "should return children when given a `test` and existing (#2)",
     async function () {
-      assert.deepEqual(findBetween(paragraph, 0, 3, check), []);
+      assert.deepEqual(findBetweenIncluded(paragraph, 0, 3, check), []);
     },
   );
 
   await t.test(
     "should return children when given a `test` and existing (#3)",
     async function () {
-      assert.deepEqual(findBetween(paragraph, 0, paragraph.children[4], check), []);
+      assert.deepEqual(findBetweenIncluded(paragraph, 0, paragraph.children[4], check), [
+        paragraph.children[4],
+      ]);
     },
   );
 
   await t.test(
     "should return children when given a `test` and existing (#4)",
     async function () {
-      assert.deepEqual(findBetween(paragraph, 0, paragraph.children[3], check), []);
+      assert.deepEqual(findBetweenIncluded(paragraph, 0, paragraph.children[3], check), []);
     },
   );
 });
