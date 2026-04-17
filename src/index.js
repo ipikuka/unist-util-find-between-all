@@ -1,10 +1,11 @@
 /**
  * @typedef {import('unist').Node} UnistNode
  * @typedef {import('unist').Parent} UnistParent
+ * @typedef {import('unist-util-is').Test} Test
  */
 
 /**
- * @typedef {Exclude<import('unist-util-is').Test, undefined> | undefined} Test
+ *  {Exclude<import('unist-util-is').Test, undefined> | undefined} Test
  *   Test from `unist-util-is`.
  *
  *   Note: we have remove and add `undefined`, because otherwise when generating
