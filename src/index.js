@@ -73,6 +73,32 @@
 import { convert } from "unist-util-is";
 
 /**
+ * Internal helper to validate a parent and resolve a node/index to a valid number.
+ * * @param {UnistParent} parent
+ * @param {UnistNode | number} indexOrNode
+ * @param {string} label - Either 'start' or 'end' for error messages
+ * @returns {number}
+ */
+function resolveIndex(parent, indexOrNode, label) {
+  if (!parent || !parent.type || !parent.children) {
+    throw new Error("Expected parent node");
+  }
+
+  if (typeof indexOrNode === "number") {
+    if (indexOrNode < 0 || indexOrNode === Number.POSITIVE_INFINITY) {
+      throw new Error(`Expected positive finite number as index for ${label}`);
+    }
+    return indexOrNode;
+  }
+
+  const index = parent.children.indexOf(indexOrNode);
+  if (index < 0) {
+    throw new Error(`Expected child node or index for ${label}`);
+  }
+  return index;
+}
+
+/**
  * Find the nodes in `parent` between two `node`s or two indexes, that pass `test`.
  * Starting and ending nodes or indexes are excluded by default.
  * Use 'findBetweenIncluded' for including starting and ending nodes or indexes.
@@ -104,43 +130,17 @@ export const findBetween =
      * @param {Test} [test]
      * @returns {Array<UnistNode>}
      */
-    /* eslint max-params: ["error", 4] */
     function (parent, indexStart, indexEnd, test) {
       const is = convert(test);
       /** @type {Array<UnistNode>} */
       const results = [];
 
-      if (!parent || !parent.type || !parent.children) {
-        throw new Error("Expected parent node");
-      }
+      let start = resolveIndex(parent, indexStart, "start");
+      const end = resolveIndex(parent, indexEnd, "end");
 
-      if (typeof indexStart === "number") {
-        if (indexStart < 0 || indexStart === Number.POSITIVE_INFINITY) {
-          throw new Error("Expected positive finite number as index for start");
-        }
-      } else {
-        indexStart = parent.children.indexOf(indexStart);
-
-        if (indexStart < 0) {
-          throw new Error("Expected child node or index for start");
-        }
-      }
-
-      if (typeof indexEnd === "number") {
-        if (indexEnd < 0 || indexEnd === Number.POSITIVE_INFINITY) {
-          throw new Error("Expected positive finite number as index for end");
-        }
-      } else {
-        indexEnd = parent.children.indexOf(indexEnd);
-
-        if (indexEnd < 0) {
-          throw new Error("Expected child node or index for end");
-        }
-      }
-
-      while (++indexStart < indexEnd) {
-        if (is(parent.children[indexStart], indexStart, parent)) {
-          results.push(parent.children[indexStart]);
+      while (++start < end) {
+        if (is(parent.children[start], start, parent)) {
+          results.push(parent.children[start]);
         }
       }
 
@@ -185,40 +185,15 @@ export const findBetweenIncluded =
       /** @type {Array<UnistNode>} */
       const results = [];
 
-      if (!parent || !parent.type || !parent.children) {
-        throw new Error("Expected parent node");
-      }
+      let start = resolveIndex(parent, indexStart, "start");
+      const end = resolveIndex(parent, indexEnd, "end");
 
-      if (typeof indexStart === "number") {
-        if (indexStart < 0 || indexStart === Number.POSITIVE_INFINITY) {
-          throw new Error("Expected positive finite number as index for start");
-        }
-      } else {
-        indexStart = parent.children.indexOf(indexStart);
-
-        if (indexStart < 0) {
-          throw new Error("Expected child node or index for start");
-        }
-      }
-
-      if (typeof indexEnd === "number") {
-        if (indexEnd < 0 || indexEnd === Number.POSITIVE_INFINITY) {
-          throw new Error("Expected positive finite number as index for end");
-        }
-      } else {
-        indexEnd = parent.children.indexOf(indexEnd);
-
-        if (indexEnd < 0) {
-          throw new Error("Expected child node or index for end");
-        }
-      }
-
-      while (indexStart <= indexEnd) {
-        if (is(parent.children[indexStart], indexStart, parent)) {
-          results.push(parent.children[indexStart]);
+      while (start <= end) {
+        if (is(parent.children[start], start, parent)) {
+          results.push(parent.children[start]);
         }
 
-        indexStart++;
+        start++;
       }
 
       return results;

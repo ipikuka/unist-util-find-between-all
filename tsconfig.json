@@ -11,8 +11,7 @@
     "sourceMap": true,
     "inlineSources": true,
     "noEmit": true,
-    "noImplicitReturns": true,
-    "exactOptionalPropertyTypes": true
+    "noImplicitReturns": true
   },
   "include": ["src", "tests", "test-d"]
 }
