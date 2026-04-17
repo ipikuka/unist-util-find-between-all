@@ -22,10 +22,7 @@ Thank you for supporting open source! 🙌
 [![typescript][badge-typescript]][url-typescript]
 [![license][badge-license]][url-license]
 
-[unist][unist] utility to find the nodes between two nodes.
-
-**`unist-util-find-between`** is a utility that you can use to find nodes between two nodes or
-indexes in a parent.
+**`unist-util-find-between`** is a [unist][unist] utility to find nodes between two nodes or indexes in a parent.
 
 ## When should I use this?
 
@@ -100,17 +97,17 @@ This package exports the identifiers [**`findBetween`**][api-findBetween] and [*
 
 ### `findBetween`
 
-Usage: **`findBetween(parent, child|index, child|index[, test])`**
+**`findBetween(parent, child|index, child|index[, test])`**
 
-Finds the nodes in `parent` between two `child`s or indexes, that pass `test`.
+Finds nodes in a `parent` between two `child`s or indexes, that pass `test`.
 
 Starting and ending nodes or indexes are **excluded**. Use `findBetweenIncluded` for including starting and ending nodes or indexes.
 
 ### `findBetweenIncluded`
 
-Usage: **`findBetweenIncluded(parent, child|index, child|index[, test])`**
+**`findBetweenIncluded(parent, child|index, child|index[, test])`**
 
-Finds the nodes in `parent` between two `child`s or indexes, that pass `test`.
+Finds nodes in a `parent` between two `child`s or indexes, that pass `test`.
 
 Starting and ending nodes or indexes are **included**. Use `findBetween` for excluding starting and ending nodes or indexes.
 
