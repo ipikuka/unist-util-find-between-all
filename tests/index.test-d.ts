@@ -1,4 +1,4 @@
-import { expectType } from "tsd";
+import { expectType, expectAssignable } from "tsd";
 import type {
   Heading,
   Paragraph,
@@ -47,6 +47,6 @@ expectType<RootContent[]>(findBetween(root, 0, paragraph2, { type: "heading" }))
 
 expectType<Heading[]>(findBetween(root, 0, paragraph2, "heading"));
 
-expectType<RootContent[]>(findBetween(root, 0, paragraph2, "heading"));
+expectAssignable<RootContent[]>(findBetween(root, 0, paragraph2, "heading"));
 
 expectType<RowContent[]>(findBetween(row, 0, cell));
