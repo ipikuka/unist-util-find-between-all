@@ -1,6 +1,6 @@
 {
   "name": "unist-util-find-between",
-  "version": "1.1.6",
+  "version": "1.2.0",
   "description": "unist utility to find the nodes between two nodes",
   "type": "module",
   "main": "./dist/index.js",
