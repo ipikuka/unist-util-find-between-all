@@ -73,8 +73,5 @@
     "detail": true,
     "strict": true
   },
-  "tsd": {
-    "directory": "tests"
-  },
   "sideEffects": false
 }
