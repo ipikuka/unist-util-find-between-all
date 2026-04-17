@@ -24,31 +24,6 @@ Thank you for supporting open source! 🙌
 
 [unist][] utility to find the nodes between two nodes.
 
-## Contents
-
-- [unist-util-find-between](#unist-util-find-between)
-  - [Contents](#contents)
-  - [What is this?](#what-is-this)
-  - [When should I use this?](#when-should-i-use-this)
-  - [Install](#install)
-  - [Use](#use)
-  - [API](#api)
-    - [`findBetween(parent, child|index, child|index[, test][, options])`](#findBetweenparent-childindex-childindex-test-options)
-          - [Parameters](#parameters)
-          - [Returns](#returns)
-  - [Types](#types)
-  - [Compatibility](#compatibility)
-  - [Related](#related)
-  - [Contribute](#contribute)
-  - [My Plugins](#my-plugins)
-    - [My Remark Plugins](#my-remark-plugins)
-    - [My Rehype Plugins](#my-rehype-plugins)
-    - [My Recma Plugins](#my-recma-plugins)
-    - [My Unist Utils and Plugins](#my-unist-utils-and-plugins)
-  - [License](#license)
-
-## What is this?
-
 This is a tiny utility that you can use to find nodes between two nodes or
 indexes in a parent.
 
@@ -240,7 +215,7 @@ I also build low-level utilities and plugins for the Unist ecosystem that can be
 - [`unist-util-find-between`](https://www.npmjs.com/package/unist-util-find-between)
   – Unist utility to find the nodes between two nodes.
 - [`unified-log-tree`](https://www.npmjs.com/package/unified-log-tree)
-  – Debugging plugin for the unified ecosystem that logs abstract syntax trees (ASTs) without mutating.
+  – Unified plugin to log abstract syntax trees (ASTs) without mutating.
 
 ## License
 
