@@ -14,24 +14,22 @@ Thank you for supporting open source! 🙌
 
 # unist-util-find-between
 
-[![Build][build-badge]][build]
-[![Coverage][coverage-badge]][coverage]
-[![Downloads][downloads-badge]][downloads]
-[![Sponsors][sponsors-badge]][collective]
-[![Backers][backers-badge]][collective]
-[![Chat][chat-badge]][chat]
-[![Size][size-badge]][size]
+[![npm version][badge-npm-version]][url-npm-package]
+[![npm downloads][badge-npm-download]][url-npm-package]
+[![publish to npm][badge-publish-to-npm]][url-publish-github-actions]
+[![code-coverage][badge-codecov]][url-codecov]
+[![type-coverage][badge-type-coverage]][url-github-package]
+[![typescript][badge-typescript]][url-typescript]
+[![license][badge-license]][url-license]
 
-[unist][] utility to find the nodes between two nodes.
+[unist][unist] utility to find the nodes between two nodes.
 
-This is a tiny utility that you can use to find nodes between two nodes or
+**`unist-util-find-between`** is a utility that you can use to find nodes between two nodes or
 indexes in a parent.
 
 ## When should I use this?
 
-This is super tiny.
-You can of course do it yourself.
-But this helps when integrating with the rest of unified and unist.
+You may need to use **`unist-util-find-between`** when you develop a unified plugin or unist utility while inspecting or traversing an abstract syntax tree (AST).
 
 ## Install
 
@@ -60,7 +58,7 @@ In browsers with [`esm.sh`][esmsh]:
 
 ```js
 import {u} from 'unist-builder'
-import {findBetween} from 'unist-util-find-between'
+import {findBetween, findBetweenIncluded} from 'unist-util-find-between'
 
 const tree = u('tree', [
   u('leaf', 'leaf 1'),
@@ -72,7 +70,19 @@ const tree = u('tree', [
   u('leaf', 'leaf 7')
 ])
 
-console.log(findBetween(tree, 1, 5, 'leaf'))
+console.log(findBetween(tree, 1, 4, 'leaf'))
+```
+
+Yields:
+
+```js
+[
+  {type: 'leaf', value: 'leaf 4'},
+]
+```
+
+```js
+console.log(findBetweenIncluded(tree, 1, 4, 'leaf'))
 ```
 
 Yields:
@@ -86,12 +96,23 @@ Yields:
 
 ## API
 
-This package exports the identifier [`findBetween`][api-find-all-between].
-There is no default export.
+This package exports the identifiers [**`findBetween`**][api-findBetween] and [**`findBetweenIncluded`**][api-findBetweenIncluded]. There is no default export.
 
-### `findBetween(parent, child|index, child|index[, test][, options])`
+### `findBetween`
 
-Find the nodes in `parent` between two `child`s or indexes, that pass `test`.
+Usage: **`findBetween(parent, child|index, child|index[, test])`**
+
+Finds the nodes in `parent` between two `child`s or indexes, that pass `test`.
+
+Starting and ending nodes or indexes are **excluded**. Use `findBetweenIncluded` for including starting and ending nodes or indexes.
+
+### `findBetweenIncluded`
+
+Usage: **`findBetweenIncluded(parent, child|index, child|index[, test])`**
+
+Finds the nodes in `parent` between two `child`s or indexes, that pass `test`.
+
+Starting and ending nodes or indexes are **included**. Use `findBetween` for excluding starting and ending nodes or indexes.
 
 ###### Parameters
 
@@ -103,8 +124,6 @@ Find the nodes in `parent` between two `child`s or indexes, that pass `test`.
     — child in `parent`
 *   `test` ([`Test`][test])
     — `unist-util-is`-compatible test
-*   `options` ([`{behaviour: "include" | "exclude"}`][options])
-    — The behaviour for including or excluding (default) both sides (optional).
 
 ###### Returns
 
@@ -112,15 +131,12 @@ Children of `parent` ([`Array<Node>`][node]).
 
 ## Types
 
-This package is fully typed with [TypeScript][].
+This package is fully typed with [TypeScript][url-typescript].
 It exports no additional types (types for the test are in `unist-util-is`).
 
 ## Compatibility
 
-Projects maintained by the unified collective are compatible with maintained
-versions of Node.js.
-As of now, that is Node.js 16+.
-Our projects sometimes work with older versions, but this is not guaranteed.
+This plugin works with unified version 6+ and Node.js 16+.
 
 ## Related
 
@@ -146,16 +162,6 @@ Our projects sometimes work with older versions, but this is not guaranteed.
     — remove nodes from a tree that pass a test
 *   [`unist-util-select`](https://github.com/syntax-tree/unist-util-select)
     — select nodes with CSS-like selectors
-
-## Contribute
-
-See [`contributing.md`][contributing] in [`syntax-tree/.github`][health] for
-ways to get started.
-See [`support.md`][support] for ways to get help.
-
-This project has a [code of conduct][coc].
-By interacting with this repository, organization, or community you agree to
-abide by its terms.
 
 ## My Plugins
 
@@ -223,56 +229,30 @@ I also build low-level utilities and plugins for the Unist ecosystem that can be
 
 <!-- Definitions -->
 
-[build-badge]: https://github.com/ipikuka/unist-util-find-between/workflows/main/badge.svg
-
-[build]: https://github.com/ipikuka/unist-util-find-between/actions
-
-[coverage-badge]: https://img.shields.io/codecov/c/github/ipikuka/unist-util-find-between.svg
-
-[coverage]: https://codecov.io/github/ipikuka/unist-util-find-between
-
-[downloads-badge]: https://img.shields.io/npm/dm/unist-util-find-between.svg
-
-[downloads]: https://www.npmjs.com/package/unist-util-find-between
-
-[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size&query=$.size.compressedSize&url=https://deno.bundlejs.com/?q=unist-util-find-between
-
-[size]: https://bundlejs.com/?q=unist-util-find-between
-
-[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
-
-[backers-badge]: https://opencollective.com/unified/backers/badge.svg
-
-[collective]: https://opencollective.com/unified
-
-[chat-badge]: https://img.shields.io/badge/chat-discussions-success.svg
-
-[chat]: https://github.com/syntax-tree/unist/discussions
-
 [npm]: https://docs.npmjs.com/cli/install
-
 [esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
-
 [esmsh]: https://esm.sh
-
-[typescript]: https://www.typescriptlang.org
-
-[license]: license
-
-[author]: https://www.npmjs.com/~talatkuyuk
-
-[health]: https://github.com/syntax-tree/.github
-
-[contributing]: https://github.com/syntax-tree/.github/blob/main/contributing.md
-
-[support]: https://github.com/syntax-tree/.github/blob/main/support.md
-
-[coc]: https://github.com/syntax-tree/.github/blob/main/code-of-conduct.md
-
 [unist]: https://github.com/syntax-tree/unist
-
 [node]: https://github.com/syntax-tree/unist#node
-
 [test]: https://github.com/syntax-tree/unist-util-is#test
+[api-findBetween]: #findBetween
+[api-findBetweenIncluded]: #findBetweenIncluded
 
-[api-find-all-between]: #findBetweenparent-childindex-test
+[badge-npm-version]: https://img.shields.io/npm/v/unist-util-find-between
+[badge-npm-download]:https://img.shields.io/npm/dt/unist-util-find-between
+[url-npm-package]: https://www.npmjs.com/package/unist-util-find-between
+[url-github-package]: https://github.com/ipikuka/unist-util-find-between
+
+[badge-license]: https://img.shields.io/github/license/ipikuka/unist-util-find-between
+[url-license]: https://github.com/ipikuka/unist-util-find-between/blob/main/LICENSE
+
+[badge-publish-to-npm]: https://github.com/ipikuka/unist-util-find-between/actions/workflows/publish.yml/badge.svg
+[url-publish-github-actions]: https://github.com/ipikuka/unist-util-find-between/actions/workflows/publish.yml
+
+[badge-typescript]: https://img.shields.io/npm/types/unist-util-find-between
+[url-typescript]: https://www.typescriptlang.org/
+
+[badge-codecov]: https://codecov.io/gh/ipikuka/unist-util-find-between/graph/badge.svg?token=VC69ZAXWC0
+[url-codecov]: https://codecov.io/gh/ipikuka/unist-util-find-between
+
+[badge-type-coverage]: https://img.shields.io/badge/dynamic/json.svg?label=type-coverage&prefix=%E2%89%A5&suffix=%&query=$.typeCoverage.atLeast&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fipikuka%2Funist-util-find-between%2Fmaster%2Fpackage.json

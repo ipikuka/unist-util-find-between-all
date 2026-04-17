@@ -74,8 +74,8 @@ import { convert } from "unist-util-is";
 
 /**
  * Find the nodes in `parent` between two `node`s or two indexes, that pass `test`.
- * Nodes and indexes at both sides are excluded by default.
- * Use 'findBetweenIncluded' for including both sides.
+ * Starting and ending nodes or indexes are excluded by default.
+ * Use 'findBetweenIncluded' for including starting and ending nodes or indexes.
  *
  * @param parent
  *   Parent node.
@@ -85,8 +85,6 @@ import { convert } from "unist-util-is";
  *   Child node or index in the end of between
  * @param [test=undefined]
  *   Test for child to look for (optional).
- * @param [options=undefined]
- *   The behaviour for including or excluding both sides (optional).
  * @returns
  *   Children (matching `test`, if given).
  */
@@ -152,8 +150,8 @@ export const findBetween =
 
 /**
  * Find the nodes in `parent` between two `node`s or two indexes, that pass `test`.
- * Nodes and indexes at both sides are included by default.
- * Use 'findBetween' for excluding both sides.
+ * Starting and ending nodes or indexes are included by default.
+ * Use 'findBetween' for excluding starting and ending nodes or indexes.
  *
  * @param parent
  *   Parent node.
@@ -163,8 +161,6 @@ export const findBetween =
  *   Child node or index in the end of between
  * @param [test=undefined]
  *   Test for child to look for (optional).
- * @param [options=undefined]
- *   The behaviour for including or excluding both sides (optional).
  * @returns
  *   Children (matching `test`, if given).
  */
